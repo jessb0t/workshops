@@ -1,0 +1,6 @@
+#Ignore Mac OS files
+.DS_Store
+
+#Ignore temp R files
+.Rhistory
+.Rproj.user/

@@ -47,7 +47,7 @@ digit_display <- function(number){
   }else{
     x <- sprintf("%.3f", number)
   }
-  return (x) #this is a number
+  return (x) #this is a string
 }
 
 #this function takes a p-value and gives you a string that either rounds to 3 decimal places or outputs the classic "p<0.001"

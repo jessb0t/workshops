@@ -107,14 +107,16 @@ plot1 <-  ggplot(data=iris, aes(x=Petal.Length, y=Sepal.Length)) +
   facet_wrap(~Species, labeller=as_labeller(c(`setosa`="Setosa", `versicolor`="Versicolor", `virginica`="Virginica"))) +
   geom_label(data=label_text_iris, aes(x=Petal.Length, y=Sepal.Length, label=label), size=3, color="black") +
   labs(title="Correlation of Petal and Sepal Length",
-       subtitle="in the 'iris' dataset",
-       x="Petal Length (cm)",
-       y="Sepal Length (cm)") +
+     subtitle="in the 'iris' dataset",
+     x="Petal Length (cm)",
+     y="Sepal Length (cm)") +
   theme_bw()
+  #+ theme(plot.title = element_text(hjust = 0.5), plot.subtitle = element_text(hjust = 0.5)) #optional centering of title and subtitle
+
 
 #output the plot to file
 fileout <- paste(outpath, "irisplot_", today, ".png", sep="")
-ggsave(fileout, plot=plot1, width=6, height=5, units="in")
+#ggsave(fileout, plot=plot1, width=3, height=4, units="in")
 
 
 ### YOUR TURN: MTCARS DATASET
@@ -131,3 +133,30 @@ data(mtcars)
 # - try changing the theme (+ theme_xxxx())
 # - try making the points a different color (color=)
 # - try changing the opacity of the points (alpha=)
+df_automatic <- filter(mtcars, am==0)
+corr_automatic <- cor.test(pull(df_automatic, wt), pull(df_automatic, disp), method="pearson")
+df_manual <- filter(mtcars, am==1)
+corr_manual <- cor.test(pull(df_manual, wt), pull(df_manual, disp), method="pearson")
+
+label_text_mtcars <- data.frame(
+  label = c(paste("r = ", digit_display(corr_manual$estimate),
+                  "\np ", tinyps(corr_manual$p.value), sep=""),
+            paste("r = ", digit_display(corr_automatic$estimate),
+                  "\np ", tinyps(corr_automatic$p.value), sep="")),
+  am = c(0, 1),
+  wt = c(4.5, 4.5),
+  disp = c(75, 75))
+
+plot2 <- ggplot(data=mtcars, aes(x=wt, y=disp)) +
+  geom_smooth(method="lm", color="darkgrey", se=FALSE) +
+  geom_point(alpha=0.5) +
+  facet_wrap(~am, labeller=as_labeller(c(`0`="Automatic", `1`="Manual"))) +
+  geom_label(data=label_text_mtcars, aes(x=wt, y=disp, label=label), size=3, color="black") +
+  labs(title="Correlation of Weight and Displacement",
+       subtitle="in the 'mtcars' dataset",
+       x="Weight (lb/1000)",
+       y="Displacement (cubic inches)") +
+  theme_bw()
+
+fileout2 <- paste(outpath, "mtcarsplot_", today, ".png", sep="")
+#ggsave(fileout2, plot=plot2, width=6, height=7, units="in")

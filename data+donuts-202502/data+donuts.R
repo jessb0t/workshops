@@ -116,7 +116,7 @@ plot1 <-  ggplot(data=iris, aes(x=Petal.Length, y=Sepal.Length)) +
 
 #output the plot to file
 fileout <- paste(outpath, "irisplot_", today, ".png", sep="")
-#ggsave(fileout, plot=plot1, width=3, height=4, units="in")
+#ggsave(fileout, plot=plot1, width=6, height=4, units="in")
 
 
 ### YOUR TURN: MTCARS DATASET

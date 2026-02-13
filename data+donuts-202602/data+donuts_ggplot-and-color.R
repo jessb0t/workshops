@@ -221,3 +221,17 @@ p33
 # create the visually overwhelming challenge plot :D
 # feel free to use your own color palette: I used MetBrewer's Egypt: https://github.com/BlakeRMills/MetBrewer?tab=readme-ov-file#egypt
 
+egypt = met.brewer("Egypt", 4)
+
+ggplot(data=penguins,
+       aes(x=flipper_length_mm, y=body_mass_g, color=island)) +
+  geom_point(alpha=0.7) +
+  scale_color_manual(values = egypt[1:3]) +
+  theme_minimal() +
+  theme(panel.grid.major = element_line(color = egypt[4]),
+        panel.grid.minor = element_line(color = egypt[4]),
+        axis.text = element_text(color = egypt[2]),
+        axis.title = element_text(color = egypt[1]),
+        legend.title = element_text(color = egypt[1])) +
+  labs(x="Flipper Length (mm)", y="Body Mass (g)", color="Island")
+# an excellent explanation of all the functions in ggplot that allow you to specify a color palette or color scale
